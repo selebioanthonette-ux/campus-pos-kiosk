@@ -1,0 +1,59 @@
+/* Shared controls keep each screen consistent without adding a UI library. */
+:root { font-family: system-ui, sans-serif; color-scheme: light; }
+body { margin: 0; }
+[hidden] { display: none !important; }
+button, input, select { font: inherit; }
+button, select, input { min-height: 56px; border-radius: 10px; }
+/* Class specificity preserves control spacing when the Tailwind CDN inserts its reset. */
+button[class] { padding: 14px 18px; font-weight: 600; line-height: 1.4; }
+button:disabled { cursor: not-allowed; }
+button:not(:disabled) { cursor: pointer; }
+.product:not(:disabled):hover { background: #eff6ff; border-color: #2563eb; }
+.quantity:not(:disabled):hover, .remove:not(:disabled):hover { background: #eff6ff; }
+button:focus-visible, select:focus-visible, input:focus-visible { outline: 3px solid #2563eb; outline-offset: 3px; }
+::selection { background: #bfdbfe; color: #172554; }
+select, input { width: 100%; border: 1px solid #64748b; padding: 12px; background: white; color: #0f172a; }
+select { cursor: pointer; }
+input:disabled { background: #f8fafc; opacity: 1; }
+.preview-bar { display: flex; align-items: center; justify-content: space-between; gap: 20px; padding: 18px; margin-bottom: 12px; background: #e2e8f0; border-radius: 12px; }
+.preview-bar > div:last-child { min-width: 220px; }
+.screen-heading { margin-bottom: 24px; }
+.screen-heading h2 { font-size: clamp(1.5rem, 3vw, 2rem); font-weight: 700; line-height: 1.2; }
+.screen-heading p { margin-top: 8px; color: #475569; }
+.panel { background: white; border: 1px solid #cbd5e1; border-radius: 14px; padding: 24px; }
+.product { display: flex; flex-direction: column; justify-content: space-between; gap: 24px; min-height: 150px; text-align: left; background: white; border: 1px solid #94a3b8; font-size: 1.125rem; }
+.price { color: #1e40af; font-size: 1.375rem; font-weight: 700; font-variant-numeric: tabular-nums; }
+.primary { background: #1d4ed8; color: white; }
+.secondary, .quantity, .remove { background: white; color: #1e3a8a; border: 1px solid #94a3b8; }
+.primary:not(:disabled):hover { background: #1e40af; }
+.secondary:not(:disabled):hover { background: #eff6ff; }
+.order-item { padding: 18px 0; border-bottom: 1px solid #e2e8f0; }
+.quantity-row { display: flex; align-items: center; gap: 12px; margin-top: 12px; }
+.quantity { min-width: 56px; padding: 12px; font-size: 1.25rem; }
+.remove { margin-left: auto; padding: 12px; }
+.total { display: flex; justify-content: space-between; align-items: center; gap: 16px; margin: 24px 0; font-size: 1.25rem; font-weight: 700; font-variant-numeric: tabular-nums; }
+.actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 24px; }
+.actions > button { flex: 1 1 180px; }
+.feedback, .success-feedback { padding: 16px; border-radius: 10px; background: #eff6ff; color: #1e3a8a; }
+.success-feedback { background: #dcfce7; color: #14532d; }
+.error-feedback { padding: 16px; border-radius: 10px; background: #fee2e2; color: #991b1b; }
+.payment-option { display: flex; flex-direction: column; justify-content: center; gap: 12px; min-height: 160px; background: #eff6ff; color: #1e3a8a; border: 1px solid #93c5fd; text-align: left; }
+.payment-option strong { font-size: 1.375rem; }
+.payment-option span { font-weight: 400; }
+.qr-placeholder { display: grid; align-content: center; width: min(100%, 240px); aspect-ratio: 1; margin: 24px auto; border: 2px dashed #64748b; text-align: center; font-weight: 700; background: #f8fafc; }
+.table-scroll { overflow-x: auto; }
+table { width: 100%; border-collapse: collapse; font-variant-numeric: tabular-nums; }
+th, td { padding: 16px 8px; text-align: right; border-bottom: 1px solid #e2e8f0; white-space: nowrap; }
+th:first-child { text-align: left; }
+thead { background: #f1f5f9; }
+tbody th { font-weight: 500; }
+.details > div { display: flex; justify-content: space-between; gap: 20px; padding: 10px 0; }
+.details dt { color: #475569; }
+.details dd { text-align: right; font-weight: 600; font-variant-numeric: tabular-nums; overflow-wrap: anywhere; }
+@media (max-width: 639px) {
+  .preview-bar { align-items: stretch; flex-direction: column; gap: 12px; }
+  .panel { padding: 18px; }
+  .product { padding: 16px; min-height: 140px; }
+  th, td { padding: 14px 6px; font-size: 0.875rem; }
+  .details > div { flex-wrap: wrap; gap: 4px 16px; }
+}

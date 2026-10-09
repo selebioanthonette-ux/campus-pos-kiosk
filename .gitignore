@@ -1,0 +1,22 @@
+# Dependencies and generated verification files
+node_modules/
+coverage/
+tmp/
+*.log
+
+# Local data, environments, and secrets
+*.db
+*.db-*
+*.sqlite
+*.sqlite3
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+.env
+.env.*
+!.env.example
+
+# Operating system files
+.DS_Store
+Thumbs.db

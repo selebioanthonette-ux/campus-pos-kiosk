@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Campus POS Kiosk</title>
+    <link rel="icon" href="data:,">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="./css/styles.css">
+    <script type="module" src="./js/app.js"></script>
+  </head>
+  <body class="min-h-screen bg-slate-50 text-slate-900">
+    <header class="border-b border-slate-200 bg-white"><div class="mx-auto max-w-6xl px-5 py-6 sm:px-8"><h1 class="text-2xl font-bold sm:text-3xl">Campus POS Kiosk</h1><p class="mt-1 text-slate-600">Choose your items. Review your order. Pay with ease.</p></div></header>
+    <main class="mx-auto max-w-6xl px-5 py-6 sm:px-8 sm:py-8">
+      <p id="setup-status" role="status" class="mb-5 text-sm text-slate-600">Loading interface...</p>
+      <noscript>Enable JavaScript to select products and review your order.</noscript>
+
+      <section data-screen="selection" aria-labelledby="selection-heading">
+        <div class="screen-heading"><h2 id="selection-heading">Select your items</h2><p>Tap a product to add it to your order.</p></div>
+        <div class="grid items-start gap-8 lg:grid-cols-[1fr_360px]">
+          <div class="grid grid-cols-2 gap-3 sm:grid-cols-3 sm:gap-4" aria-label="Products">
+            <button type="button" class="product" disabled><span>Coffee</span><span class="price">₱45.00</span></button>
+            <button type="button" class="product" disabled><span>Sandwich</span><span class="price">₱50.00</span></button>
+            <button type="button" class="product" disabled><span>Soft Drink</span><span class="price">₱35.00</span></button>
+            <button type="button" class="product" disabled><span>Cookies</span><span class="price">₱25.00</span></button>
+            <button type="button" class="product" disabled><span>Bottled Water</span><span class="price">₱20.00</span></button>
+            <button type="button" class="product" disabled><span>Chocolate</span><span class="price">₱25.00</span></button>
+          </div>
+          <aside class="panel" aria-labelledby="cart-heading">
+            <h3 id="cart-heading" class="text-xl font-bold">Your order</h3>
+            <p class="mt-2 text-sm text-slate-600">Use + and − to adjust quantities, or Remove to delete an item.</p>
+            <div id="cart-items"></div>
+            <div class="total"><span>Total</span><span id="cart-total">₱0.00</span></div>
+            <button id="review-order" class="primary w-full" data-go-screen="summary" disabled>Continue to Order Summary</button>
+            <p class="mt-2 text-sm text-slate-600">Add at least one item, then review your order.</p>
+          </aside>
+        </div><div id="cart-feedback" class="feedback mt-6" role="status">Tap a product to start your order.</div>
+      </section>
+
+      <section data-screen="summary" aria-labelledby="summary-heading" hidden>
+        <div class="screen-heading"><h2 id="summary-heading">Review your order</h2><p>Check your items and quantities before payment.</p></div>
+        <div class="panel mx-auto max-w-3xl">
+          <div class="table-scroll"><table><caption class="sr-only">Your order summary</caption><thead><tr><th>Item</th><th>Qty</th><th>Unit price</th><th>Subtotal</th></tr></thead><tbody id="summary-items"></tbody></table></div>
+          <div class="total"><span>Total amount</span><span data-order-total>₱0.00</span></div>
+          <div class="actions"><button class="secondary" data-go-screen="selection">Back to Items</button><button class="primary" data-go-screen="methods">Continue to Payment</button></div>
+        </div>
+      </section>
+
+      <section data-screen="methods" aria-labelledby="methods-heading" hidden>
+        <div class="screen-heading"><h2 id="methods-heading">Choose a payment method</h2><p>Select how you would like to pay.</p></div>
+        <div class="panel"><div class="total mt-0"><span>Total due</span><span data-order-total>₱0.00</span></div>
+          <div class="grid gap-4 sm:grid-cols-3"><button class="payment-option" data-go-screen="cash"><strong>Cash</strong><span>Pay using cash</span></button><button class="payment-option" data-go-screen="qr"><strong>QR Payment</strong><span>Simulated QR confirmation</span></button><button class="payment-option" data-go-screen="card"><strong>Credit/Debit Card</strong><span>Simulated card processing</span></button></div>
+          <div class="actions"><button class="secondary" data-go-screen="summary">Back to Order Summary</button></div>
+        </div>
+      </section>
+
+      <section data-screen="cash" aria-labelledby="cash-heading" hidden>
+        <div class="screen-heading"><h2 id="cash-heading">Cash payment</h2><p>Enter the cash amount to calculate your change.</p></div>
+        <div class="panel mx-auto max-w-xl"><div class="total mt-0"><span>Total due</span><span data-order-total>₱0.00</span></div>
+          <label for="cash-amount" class="mb-2 block font-semibold">Amount paid (₱)</label><input id="cash-amount" type="text" inputmode="decimal" placeholder="0.00" aria-describedby="cash-note cash-feedback"><p id="cash-note" class="mt-2 text-sm text-slate-600">Enter at least the total due. Use up to two decimal places.</p>
+          <div class="total"><span>Change</span><span id="cash-change">—</span></div><div id="cash-feedback" class="feedback mb-5" role="status">Enter the amount paid, then select Pay Now.</div>
+          <div class="actions"><button class="secondary" data-go-screen="methods">Back to Payment Methods</button><button id="pay-cash" class="primary">Pay Now</button></div>
+        </div>
+      </section>
+
+      <section data-screen="qr" aria-labelledby="qr-heading" hidden>
+        <div class="screen-heading"><h2 id="qr-heading">QR payment</h2><p>Simulated payment — no money will be transferred.</p></div>
+        <div class="panel mx-auto max-w-xl"><div class="total mt-0"><span>Total due</span><span data-order-total>₱0.00</span></div>
+          <div class="qr-placeholder">QR placeholder<br><span class="text-sm font-normal">Simulation only · not scannable</span></div><p class="my-5 text-center">In a real payment, scan the QR code using your supported payment application. For this simulation, select Confirm Payment.</p><div id="qr-feedback" class="feedback mb-5" role="status">Waiting for simulated payment confirmation.</div>
+          <div class="actions"><button class="secondary" data-go-screen="methods">Back to Payment Methods</button><button id="confirm-qr" class="primary">Confirm Payment</button></div>
+        </div>
+      </section>
+
+      <section data-screen="card" aria-labelledby="card-heading" hidden>
+        <div class="screen-heading"><h2 id="card-heading">Credit/Debit Card</h2><p>Simulated payment — no card details are collected.</p></div>
+        <div class="panel mx-auto max-w-xl"><div class="total mt-0"><span>Total due</span><span data-order-total>₱0.00</span></div><p class="my-6 text-xl font-semibold">Please tap, insert, or swipe your card.</p><div id="card-feedback" class="feedback mb-5" role="status">Select Process Payment to simulate a card payment.</div>
+          <div class="actions"><button class="secondary" data-go-screen="methods">Back to Payment Methods</button><button id="process-card" class="primary">Process Payment</button></div>
+        </div>
+      </section>
+
+      <section data-screen="success" aria-labelledby="success-heading" hidden>
+        <div class="screen-heading"><h2 id="success-heading">Payment Successful</h2><p>Your payment is complete. View your receipt below.</p></div>
+        <div class="panel mx-auto max-w-xl"><div class="success-feedback mb-5">Thank you. Your payment was successful.</div>
+          <dl class="details">
+            <div><dt>Transaction reference</dt><dd data-transaction-field="reference"></dd></div>
+            <div><dt>Transaction amount</dt><dd data-transaction-field="total"></dd></div>
+            <div><dt>Amount paid</dt><dd data-transaction-field="paid"></dd></div>
+            <div><dt>Payment method</dt><dd data-transaction-field="method"></dd></div>
+          </dl>
+          <button class="primary mt-6 w-full" data-go-screen="receipt">View Receipt</button>
+        </div>
+      </section>
+
+      <section data-screen="receipt" aria-labelledby="receipt-heading" hidden>
+        <div class="screen-heading"><h2 id="receipt-heading">Digital receipt</h2><p>Keep these details for your reference.</p></div>
+        <div class="panel mx-auto max-w-2xl"><h3 class="text-xl font-bold">Campus Store POS</h3>
+          <dl class="details my-5">
+            <div><dt>Reference</dt><dd data-transaction-field="reference"></dd></div>
+            <div><dt>Date (Philippine time)</dt><dd data-transaction-field="date"></dd></div>
+          </dl>
+          <div class="table-scroll"><table><caption class="sr-only">Purchased items</caption><thead><tr><th>Item</th><th>Qty × price</th><th>Subtotal</th></tr></thead><tbody id="receipt-items"></tbody></table></div>
+          <div class="total"><span>Total</span><span data-transaction-field="total"></span></div>
+          <dl class="details">
+            <div><dt>Payment method</dt><dd data-transaction-field="method"></dd></div>
+            <div><dt>Amount paid</dt><dd data-transaction-field="paid"></dd></div>
+            <div><dt>Change</dt><dd data-transaction-field="change"></dd></div>
+            <div><dt>Status</dt><dd data-transaction-field="status"></dd></div>
+          </dl>
+          <button id="new-transaction" class="primary mt-6 w-full">New Transaction</button>
+        </div>
+      </section>
+    </main>
+  </body>
+</html>
